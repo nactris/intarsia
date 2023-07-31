@@ -5,6 +5,7 @@ import com.mojang.logging.LogUtils;
 import dot.funky.nacsworkshop.capabilities.CurioCompatibilityHandler;
 import dot.funky.nacsworkshop.client.models.AmethystGolemModel;
 import dot.funky.nacsworkshop.client.renderers.AmethystGolemRenderer;
+import dot.funky.nacsworkshop.common.casting.Patterns;
 import dot.funky.nacsworkshop.common.entities.AmethystGolem;
 import dot.funky.nacsworkshop.core.NacEntities;
 import dot.funky.nacsworkshop.events.AmethystGolemEventHandler;
@@ -42,9 +43,10 @@ public class NacsWorkshop {
             modEventBus.addListener(CurioCompatibilityHandler::commonCurioSetup);
             MinecraftForge.EVENT_BUS.register(CurioKeyboardEventHandler.class);
             MinecraftForge.EVENT_BUS.addListener(CurioCompatibilityHandler::clientTick);
-
         }
 
+
+        modEventBus.addListener((FMLCommonSetupEvent evt) -> evt.enqueueWork(Patterns::registerPatterns));
         modEventBus.addListener(this::onCommonSetup);
         modEventBus.addListener(this::bakeLayers);
         //   NacsBlocks.BLOCKS.register(modEventBus);

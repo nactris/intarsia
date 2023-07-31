@@ -1,0 +1,26 @@
+{
+  "name": "hexcasting.entry.nacspatterns",
+  "category": "hexcasting:patterns",
+  "icon": "minecraft:budding_amethyst",
+  "sortnum":32,
+  "advancement": "hexcasting:root",
+  "read_by_default": false,
+  "pages": [
+    {
+      "type": "hexcasting:pattern",
+      "op_id": "hexcasting:calculate_media",
+      "anchor": "hexcasting:calculate_media",
+      "input": "",
+      "output": "number",
+      "text": "nacsworkshop.page.calculate_media"
+    },
+    {
+      "type": "hexcasting:pattern",
+      "op_id": "hexcasting:typeequals",
+      "anchor": "hexcasting:typeequals",
+      "input": "any, any",
+      "output": "bool",
+      "text": "nacsworkshop.page.typeequals"
+    }
+  ]
+}
