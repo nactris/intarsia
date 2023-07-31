@@ -1,0 +1,15 @@
+{
+  "key.category.nacsworkshop": "Nac's Bag of Wonders",
+  "curios.identifier.castingdevice": "Casting Device",
+
+  "key.nacsworkshop.slot.1": "Slot 1",
+  "key.nacsworkshop.slot.2": "Slot 2",
+  "key.nacsworkshop.slot.3": "Slot 3",
+  "itemGroup.nacsworkshop" : "Nactris's Bag of Wonders",
+  "item.nacsworkshop.spawn_egg": "Amethyst Golem Spawn Egg",
+  "block.nacsworkshop.test": "Test Block",
+  "key.nacsworkshop.slot.4": "Slot 4",
+  "key.nacsworkshop.slot.5": "Slot 5",
+  "advancements.adventure.summon_amethyst_golem.title": "Crystaline Opera",
+  "advancements.adventure.summon_amethyst_golem.description": "Summon an Amethyst Golem and listen to its song"
+}
