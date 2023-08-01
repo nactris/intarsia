@@ -2,7 +2,7 @@
   "name": "hexcasting.entry.nacspatterns",
   "category": "hexcasting:patterns",
   "icon": "minecraft:budding_amethyst",
-  "sortnum":32,
+  "sortnum": 32,
   "advancement": "hexcasting:root",
   "read_by_default": false,
   "pages": [
@@ -13,6 +13,30 @@
       "input": "",
       "output": "number",
       "text": "nacsworkshop.page.calculate_media"
+    },
+    {
+      "type": "hexcasting:pattern",
+      "op_id": "hexcasting:get_health",
+      "anchor": "hexcasting:get_health",
+      "input": "entity",
+      "output": "number",
+      "text": "nacsworkshop.page.get_health"
+    },
+    {
+      "type": "hexcasting:pattern",
+      "op_id": "hexcasting:slot_write",
+      "anchor": "hexcasting:slot_write",
+      "input": "number, any",
+      "output": "",
+      "text": "nacsworkshop.page.slot_write"
+    },
+    {
+      "type": "hexcasting:pattern",
+      "op_id": "hexcasting:slot_read",
+      "anchor": "hexcasting:slot_read",
+      "input": "number",
+      "output": "any",
+      "text": "nacsworkshop.page.slot_read"
     },
     {
       "type": "hexcasting:pattern",
