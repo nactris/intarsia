@@ -25,4 +25,10 @@ Returns amount of media in inventory
 
 Checks if two iotas are the same type 
 
+### Scholar's Gambit
 
+Write iotas to quick-slots
+
+### Scholar's Reflection
+
+Read iotas from quick-slots
