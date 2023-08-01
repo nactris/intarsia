@@ -19,6 +19,7 @@ For those who cannot accept an upper cap on how big a phial can be, a recipe to 
 - Archivist's Distillation - Checks if two iotas are the same type 
 - Scholar's Gambit - Write iotas to quick-slots
  - Scholar's Reflection - Read iotas from quick-slots
+- Kahuna's Purification - Returns Health
 
 ## Other
 
