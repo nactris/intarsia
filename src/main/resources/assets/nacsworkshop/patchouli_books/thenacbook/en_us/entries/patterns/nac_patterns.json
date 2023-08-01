@@ -45,6 +45,22 @@
       "input": "any, any",
       "output": "bool",
       "text": "nacsworkshop.page.typeequals"
+    },
+    {
+      "type": "hexcasting:pattern",
+      "op_id": "hexcasting:slot_write",
+      "anchor": "hexcasting:slot_write",
+      "input": "number, any",
+      "output": "",
+      "text": "nacsworkshop.page.slot_write"
+    },
+    {
+      "type": "hexcasting:pattern",
+      "op_id": "hexcasting:slot_read",
+      "anchor": "hexcasting:slot_read",
+      "input": "number",
+      "output": "any",
+      "text": "nacsworkshop.page.slot_read"
     }
   ]
 }

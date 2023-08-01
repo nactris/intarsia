@@ -19,11 +19,13 @@
   "nacsworkshop.page.slot_read": "Remove the top number, copy the iota from item in quick-slot with the number, and add it to the stack.",
   "nacsworkshop.page.get_health": "Returns health of an entity",
 
+
   "hexcasting.spell.hexcasting:typeequals" : "Archivist's Distillation",
   "hexcasting.spell.hexcasting:calculate_media" : "Jeweler's Reflection",
   "hexcasting.spell.hexcasting:slot_write" : "Scholar's Gambit",
   "hexcasting.spell.hexcasting:slot_read" : "Scholar's Reflection",
   "hexcasting.spell.hexcasting:get_health" : "Kahuna's Purification",
+
 
   "hexcasting.mishap.no_item.slot": "%s needs %s but got nothing",
   "hexcasting.mishap.bad_item.slot": "%s needs %s but got %dx %s",

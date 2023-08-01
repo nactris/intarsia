@@ -18,6 +18,7 @@ public class Patterns {
             PatternRegistry.mapPattern(HexPattern.fromAngles("aaedeaa", HexDir.SOUTH_WEST), modLoc("calculate_media"), OpGetMedia.INSTANCE, false);
             PatternRegistry.mapPattern(HexPattern.fromAngles("dwd", HexDir.NORTH_WEST), modLoc("get_health"), OpHealth.INSTANCE, false);
 
+
             if (ModList.get().isLoaded("curios")) {
                 PatternRegistry.mapPattern(HexPattern.fromAngles("dedweeee", HexDir.SOUTH_EAST), modLoc("slot_write"), OpWriteSlot.INSTANCE, false);
                 PatternRegistry.mapPattern(HexPattern.fromAngles("aqawqqqq", HexDir.SOUTH_WEST), modLoc("slot_read"), OpReadSlot.INSTANCE, false);
