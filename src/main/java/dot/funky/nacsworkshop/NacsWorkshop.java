@@ -21,8 +21,8 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
+import thedarkcolour.kotlinforforge.KotlinModLoadingContext;
 
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -34,7 +34,7 @@ public class NacsWorkshop {
 
 
     public NacsWorkshop() {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        IEventBus modEventBus = getModEventBus();
 
         if (ModList.get().isLoaded("curios")) {
             modEventBus.addListener(CurioCompatibilityHandler::IMCCurios);
@@ -63,7 +63,9 @@ public class NacsWorkshop {
         // Some client setup code
     }
 
-
+    private static IEventBus getModEventBus() {
+        return KotlinModLoadingContext.Companion.get().getKEventBus();
+    }
 
     private void registerAttributes(EntityAttributeCreationEvent event) {
         event.put(NacEntities.AMETHYST_GOLEM.get(), AmethystGolem.createAttributes().build());
@@ -73,20 +75,18 @@ public class NacsWorkshop {
         event.registerLayerDefinition(AmethystGolemModel.LAYER_LOCATION, AmethystGolemModel::createBodyLayer);
     }
 
-
-
-
     private void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(NacEntities.AMETHYST_GOLEM.get(), AmethystGolemRenderer::new);
     }
 
-public void onCommonSetup(final FMLCommonSetupEvent evt){
-    PhialFuseRecipe.initAnvilRecipes();
-}
+    public void onCommonSetup(final FMLCommonSetupEvent evt) {
+        PhialFuseRecipe.initAnvilRecipes();
+    }
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
     }
+
 
 }
 

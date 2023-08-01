@@ -7,14 +7,23 @@
   "key.nacsworkshop.slot.3": "Slot 3",
   "key.nacsworkshop.slot.4": "Slot 4",
   "key.nacsworkshop.slot.5": "Slot 5",
-  "itemGroup.nacsworkshop" : "Nactris's Bag of Wonders",
-  "item.nacsworkshop.spawn_egg": "Amethyst Golem Spawn Egg",
-  "block.nacsworkshop.test": "Test Block",
+
+  "itemGroup.nacsworkshop" : "Nactris's Workshop",
   "advancements.adventure.summon_amethyst_golem.title": "Crystaline Opera",
   "advancements.adventure.summon_amethyst_golem.description": "Summon an Amethyst Golem and listen to its song",
+  "hexcasting.entry.nacspatterns": "Nac's Workshop",
+
   "nacsworkshop.page.typeequals": "Returns True if both argumens have the same type. Otherwise, returns false.",
-  "nacsworkshop.page.calculate_media": "Returns the amount of media user has in inventory, note that hexes can waste media!",
+  "nacsworkshop.page.calculate_media": "Returns the amount of media user has in inventory. I should remember that hexes can waste media!",
+  "nacsworkshop.page.slot_write": "Remove an iota and number from the stack, and save the iota into the item in quick-slot with the number.",
+  "nacsworkshop.page.slot_read": "Remove the top number, copy the iota from item in quick-slot with the number, and add it to the stack.",
+
   "hexcasting.spell.hexcasting:typeequals" : "Archivist's Distillation",
   "hexcasting.spell.hexcasting:calculate_media" : "Jeweler's Reflection",
-  "hexcasting.entry.nacspatterns": "Nac's Patterns"
+  "hexcasting.spell.hexcasting:slot_write" : "Scholar's Gambit",
+  "hexcasting.spell.hexcasting:slot_read" : "Scholar's Reflection",
+
+  "hexcasting.mishap.no_item.slot": "%s needs %s but got nothing",
+  "hexcasting.mishap.bad_item.slot": "%s needs %s but got %dx %s",
+  "hexcasting.mishap.no_slot": "%s needs a valid slot number to operate on but got %s"
 }

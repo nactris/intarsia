@@ -13,6 +13,10 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    // Adds the Kotlin Gradle plugin
+    id 'org.jetbrains.kotlin.jvm' version '1.8.21'
+    // OPTIONAL Kotlin Serialization plugin
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.8.21'
 }
 
 apply plugin: 'org.spongepowered.mixin'
@@ -138,12 +142,10 @@ repositories {
     // flatDir {
     //     dir 'libs'
     // }
-/*
     maven {
         name = 'Kotlin for Forge'
         url = 'https://thedarkcolour.github.io/KotlinForForge/'
     }
-    */
     flatDir {
         dir 'libs'
     }
@@ -188,7 +190,7 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
 
-    implementation 'thedarkcolour:kotlinforforge:3.11.0'
+    implementation 'thedarkcolour:kotlinforforge:3.12.0'
 
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:$minecraft_version-${curiosVersion}")
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:$minecraft_version-${curiosVersion}:api")
@@ -220,32 +222,29 @@ dependencies {
 // When "copyIdeResources" is enabled, this will also run before the game launches in IDE environments.
 // See https://docs.gradle.org/current/dsl/org.gradle.language.jvm.tasks.ProcessResources.html
 tasks.named('processResources', ProcessResources).configure {
-    var replaceProperties = [
-            minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,
-            forge_version: forge_version, forge_version_range: forge_version_range,
-            loader_version_range: loader_version_range,
-            mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
-            mod_authors: mod_authors, mod_description: mod_description, hexcastingVersionRange: hexcastingVersion
-    ]
+    var replaceProperties = [minecraft_version   : minecraft_version, minecraft_version_range: minecraft_version_range,
+                             forge_version       : forge_version, forge_version_range: forge_version_range,
+                             loader_version_range: loader_version_range,
+                             mod_id              : mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
+                             mod_authors         : mod_authors, mod_description: mod_description, hexcastingVersionRange: hexcastingVersion]
 
     inputs.properties replaceProperties
 
     filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
         expand replaceProperties + [project: project]
-    }}
+    }
+}
 
 // Example for how to get properties into the manifest for reading at runtime.
 tasks.named('jar', Jar).configure {
     manifest {
-        attributes([
-                "Specification-Title": mod_id,
-                "Specification-Vendor": mod_authors,
-                "Specification-Version": "1", // We are version 1 of ourselves
-                "Implementation-Title": project.name,
-                "Implementation-Version": project.jar.archiveVersion,
-                "Implementation-Vendor": mod_authors,
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        ])
+        attributes(["Specification-Title"     : mod_id,
+                    "Specification-Vendor"    : mod_authors,
+                    "Specification-Version"   : "1", // We are version 1 of ourselves
+                    "Implementation-Title"    : project.name,
+                    "Implementation-Version"  : project.jar.archiveVersion,
+                    "Implementation-Vendor"   : mod_authors,
+                    "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")])
     }
 
     // This is the preferred method to reobfuscate your jar file

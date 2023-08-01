@@ -2,6 +2,12 @@
   "replace": false,
   "values": [
     "hexcasting:spellbook",
-    "hexcasting:focus"
+    "hexcasting:focus",
+    "hexcasting:scroll",
+    "hexcasting:scroll_medium",
+    "hexcasting:scroll_small",
+    "hexcasting:slate",
+    "hexcasting:abacus",
+    "hexcasting:battery"
   ]
 }

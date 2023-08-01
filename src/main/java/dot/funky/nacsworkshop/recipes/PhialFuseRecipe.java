@@ -26,8 +26,11 @@ public class PhialFuseRecipe {
             if (event.getLeft().getItem() == data.left && event.getRight().getItem() == data.right) {
                 int capacity_left = event.getLeft().getTag().getInt("hexcasting:start_media");
                 int capacity_right = event.getRight().getTag().getInt("hexcasting:start_media");
+                int current_left = event.getLeft().getTag().getInt("hexcasting:media");
+                int current_right = event.getRight().getTag().getInt("hexcasting:media");
                 CompoundTag outtag = event.getLeft().getTag().copy();
                 outtag.putInt("hexcasting:start_media", (capacity_left + capacity_right));
+                outtag.putInt("hexcasting:media", (current_left + current_right)*3/4);
                 event.setMaterialCost(1);
                 ItemStack out = new ItemStack(data.out, 1);
                 out.setTag(outtag);

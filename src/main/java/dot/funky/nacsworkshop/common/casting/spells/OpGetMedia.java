@@ -44,6 +44,7 @@ public final class OpGetMedia implements ConstMediaAction{
         List<Iota> output = new ArrayList<>();
         output.add(new DoubleIota( (double) media/10000));
         return output;
+
     }
 
     @Override
