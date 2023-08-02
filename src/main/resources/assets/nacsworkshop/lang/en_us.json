@@ -25,5 +25,10 @@
 
   "hexcasting.mishap.no_item.slot": "%s needs %s but got nothing",
   "hexcasting.mishap.bad_item.slot": "%s needs %s but got %dx %s",
-  "hexcasting.mishap.no_slot": "%s needs a valid slot number to operate on but got %s"
+  "hexcasting.mishap.no_slot": "%s needs a valid slot number to operate on but got %s",
+
+  "enchantment.nacsworkshop.mercy_curse" : "Curse of Mercy",
+  "enchantment.nacsworkshop.temperance" : "Temperance",
+  "nacsworkshop.enchantments.temperance_on" : "Active",
+  "nacsworkshop.enchantments.temperance_off" : "Inactive"
 }

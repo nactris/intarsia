@@ -5,11 +5,13 @@ import com.mojang.logging.LogUtils;
 import dot.funky.nacsworkshop.capabilities.CurioCompatibilityHandler;
 import dot.funky.nacsworkshop.client.models.AmethystGolemModel;
 import dot.funky.nacsworkshop.client.renderers.AmethystGolemRenderer;
+import dot.funky.nacsworkshop.common.EnchantementRegistry;
+import dot.funky.nacsworkshop.common.EntityRegistry;
 import dot.funky.nacsworkshop.common.casting.Patterns;
 import dot.funky.nacsworkshop.common.entities.AmethystGolem;
-import dot.funky.nacsworkshop.core.NacEntities;
 import dot.funky.nacsworkshop.events.AmethystGolemEventHandler;
 import dot.funky.nacsworkshop.events.CurioKeyboardEventHandler;
+import dot.funky.nacsworkshop.events.NacEnchantmentsEventHandler;
 import dot.funky.nacsworkshop.recipes.PhialFuseRecipe;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -47,14 +49,20 @@ public class NacsWorkshop {
 
 
         modEventBus.addListener((FMLCommonSetupEvent evt) -> evt.enqueueWork(Patterns::registerPatterns));
+
         modEventBus.addListener(this::onCommonSetup);
         modEventBus.addListener(this::bakeLayers);
-        //   NacsBlocks.BLOCKS.register(modEventBus);
-        //    NacItems.ITEMS.register(modEventBus);
-        NacEntities.ENTITIES.register(modEventBus);
         modEventBus.addListener(this::registerRenderers);
         modEventBus.addListener(this::registerAttributes);
+
+        //   BlockRegistry.BLOCKS.register(modEventBus);
+        //    ItemRegistry.ITEMS.register(modEventBus);
+        EnchantementRegistry.ENCHANTMENTS.register(modEventBus);
+        EntityRegistry.ENTITIES.register(modEventBus);
+
         MinecraftForge.EVENT_BUS.register(AmethystGolemEventHandler.class);
+        MinecraftForge.EVENT_BUS.register(NacEnchantmentsEventHandler.class);
+
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -68,7 +76,7 @@ public class NacsWorkshop {
     }
 
     private void registerAttributes(EntityAttributeCreationEvent event) {
-        event.put(NacEntities.AMETHYST_GOLEM.get(), AmethystGolem.createAttributes().build());
+        event.put(EntityRegistry.AMETHYST_GOLEM.get(), AmethystGolem.createAttributes().build());
     }
 
     private void bakeLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
@@ -76,7 +84,7 @@ public class NacsWorkshop {
     }
 
     private void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(NacEntities.AMETHYST_GOLEM.get(), AmethystGolemRenderer::new);
+        event.registerEntityRenderer(EntityRegistry.AMETHYST_GOLEM.get(), AmethystGolemRenderer::new);
     }
 
     public void onCommonSetup(final FMLCommonSetupEvent evt) {

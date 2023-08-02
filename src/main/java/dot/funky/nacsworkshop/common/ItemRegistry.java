@@ -1,11 +1,14 @@
-package dot.funky.nacsworkshop.core;
+package dot.funky.nacsworkshop.common;
 
 import dot.funky.nacsworkshop.NacsWorkshop;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class NacItems {
+public class ItemRegistry {
 
      public static final CreativeModeTab TAB = new CreativeModeTab(NacsWorkshop.MODID) {
         @Override

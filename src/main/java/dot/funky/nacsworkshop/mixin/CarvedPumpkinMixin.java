@@ -1,11 +1,9 @@
 package dot.funky.nacsworkshop.mixin;
 
 
-
 import com.mojang.logging.LogUtils;
-import dot.funky.nacsworkshop.NacsWorkshop;
+import dot.funky.nacsworkshop.common.EntityRegistry;
 import dot.funky.nacsworkshop.common.entities.AmethystGolem;
-import dot.funky.nacsworkshop.core.NacEntities;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
@@ -27,7 +25,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
 
 import java.util.function.Predicate;
 
@@ -59,7 +56,7 @@ public class CarvedPumpkinMixin {
             }
 
 
-            AmethystGolem golem = NacEntities.AMETHYST_GOLEM.get().create(world);
+            AmethystGolem golem = EntityRegistry.AMETHYST_GOLEM.get().create(world);
             BlockPos golemPos = match.getBlock(0, 1, 0).getPos();
             golem.moveTo(golemPos, 0.0F, 0.0F);
             world.addFreshEntity(golem);
