@@ -1,5 +1,5 @@
 {
-  "name": "hexcasting.entry.nacspatterns",
+  "name": "hexcasting.entry.intarsia",
   "category": "hexcasting:patterns",
   "icon": "minecraft:budding_amethyst",
   "sortnum": 32,
@@ -12,7 +12,7 @@
       "anchor": "hexcasting:calculate_media",
       "input": "",
       "output": "number",
-      "text": "nacsworkshop.page.calculate_media"
+      "text": "intarsia.page.calculate_media"
     },
     {
       "type": "hexcasting:pattern",
@@ -20,7 +20,7 @@
       "anchor": "hexcasting:get_health",
       "input": "entity",
       "output": "number",
-      "text": "nacsworkshop.page.get_health"
+      "text": "intarsia.page.get_health"
     },
     {
       "type": "hexcasting:pattern",
@@ -28,7 +28,7 @@
       "anchor": "hexcasting:slot_write",
       "input": "number, any",
       "output": "",
-      "text": "nacsworkshop.page.slot_write"
+      "text": "intarsia.page.slot_write"
     },
     {
       "type": "hexcasting:pattern",
@@ -36,7 +36,7 @@
       "anchor": "hexcasting:slot_read",
       "input": "number",
       "output": "any",
-      "text": "nacsworkshop.page.slot_read"
+      "text": "intarsia.page.slot_read"
     },
     {
       "type": "hexcasting:pattern",
@@ -44,7 +44,7 @@
       "anchor": "hexcasting:typeequals",
       "input": "any, any",
       "output": "bool",
-      "text": "nacsworkshop.page.typeequals"
+      "text": "intarsia.page.typeequals"
     },
     {
       "type": "hexcasting:pattern",
@@ -52,7 +52,7 @@
       "anchor": "hexcasting:slot_write",
       "input": "number, any",
       "output": "",
-      "text": "nacsworkshop.page.slot_write"
+      "text": "intarsia.page.slot_write"
     },
     {
       "type": "hexcasting:pattern",
@@ -60,7 +60,7 @@
       "anchor": "hexcasting:slot_read",
       "input": "number",
       "output": "any",
-      "text": "nacsworkshop.page.slot_read"
+      "text": "intarsia.page.slot_read"
     }
   ]
 }

@@ -190,7 +190,7 @@ public class AmethystGolem extends AbstractGolem {
         }
 
         if (this.getBud() < 4 && this.nextGrow-- < 0) {
-            nextGrow = random.nextInt(IntarsiaConfig.get().max_growth_time.get()) + IntarsiaConfig.get().min_growth_time.get();
+            nextGrow = random.nextInt(IntarsiaConfig.max_growth_time.get()) + IntarsiaConfig.min_growth_time.get();
             setBud(getBud() + 1);
         } else if (this.getBud() == 4) {
             this.shedTime--;
@@ -199,7 +199,7 @@ public class AmethystGolem extends AbstractGolem {
 
         if (!this.level.isClientSide && this.shedTime <= 0 && this.getBud() == 4) {
             this.playSound(SoundEvents.AMETHYST_CLUSTER_BREAK, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
-            if (IntarsiaConfig.get().does_golem_charge.get()){
+            if (IntarsiaConfig.does_golem_charge.get()){
                 this.spawnAtLocation(at.petrak.hexcasting.common.lib.HexItems.CHARGED_AMETHYST);
             }else {
                 this.spawnAtLocation(Items.AMETHYST_CLUSTER);

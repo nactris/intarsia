@@ -12,11 +12,11 @@ import org.lwjgl.glfw.GLFW;
 public class CurioKeyboardEventHandler {
 
     public static final String CATEGORY = "key.category.intarsia";
-    public static final KeyMapping SLOT_1 = new KeyMapping("key.nacsworkshop.slot.1", GLFW.GLFW_KEY_X, CATEGORY);
-    public static final KeyMapping SLOT_2 = new KeyMapping("key.nacsworkshop.slot.2", GLFW.GLFW_KEY_C, CATEGORY);
-    public static final KeyMapping SLOT_3 = new KeyMapping("key.nacsworkshop.slot.3", GLFW.GLFW_KEY_V, CATEGORY);
-    public static final KeyMapping SLOT_4 = new KeyMapping("key.nacsworkshop.slot.4", GLFW.GLFW_KEY_B, CATEGORY);
-    public static final KeyMapping SLOT_5 = new KeyMapping("key.nacsworkshop.slot.5", GLFW.GLFW_KEY_N, CATEGORY);
+    public static final KeyMapping SLOT_1 = new KeyMapping("key.intarsia.slot.1", GLFW.GLFW_KEY_X, CATEGORY);
+    public static final KeyMapping SLOT_2 = new KeyMapping("key.intarsia.slot.2", GLFW.GLFW_KEY_C, CATEGORY);
+    public static final KeyMapping SLOT_3 = new KeyMapping("key.intarsia.slot.3", GLFW.GLFW_KEY_V, CATEGORY);
+    public static final KeyMapping SLOT_4 = new KeyMapping("key.intarsia.slot.4", GLFW.GLFW_KEY_B, CATEGORY);
+    public static final KeyMapping SLOT_5 = new KeyMapping("key.intarsia.slot.5", GLFW.GLFW_KEY_N, CATEGORY);
 
     static boolean[] slotKeyDown = new boolean[5];
     static boolean[] slotKeyAllowed = {

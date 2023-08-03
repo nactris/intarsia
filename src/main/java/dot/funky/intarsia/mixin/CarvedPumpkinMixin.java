@@ -41,12 +41,12 @@ public class CarvedPumpkinMixin {
 
     @Inject(method = "canSpawnGolem", at = @At("RETURN"), cancellable = true)
     private void canSpawnGolem(LevelReader world, BlockPos pos, CallbackInfoReturnable<Boolean> ci) {
-        ci.setReturnValue(ci.getReturnValue() || this.getOrCreateAmethystGolemBase().find(world, pos) != null);
+        ci.setReturnValue((ci.getReturnValue() || this.getOrCreateAmethystGolemBase().find(world, pos) != null ) && IntarsiaConfig.is_golem_enabled.get() );
     }
 
     @Inject(method = "trySpawnGolem", at = @At("TAIL"))
     private void trySpawnGolem(Level world, BlockPos pos, CallbackInfo ci) {
-        if (IntarsiaConfig.get().is_golem_enabled.get()) {
+
             BlockPattern.BlockPatternMatch match = this.getOrCreateAmethystGolemFull().find(world, pos);
             if (match != null) {
                 for (int i = 0; i < this.getOrCreateAmethystGolemFull().getHeight(); ++i) {
@@ -70,7 +70,7 @@ public class CarvedPumpkinMixin {
                     world.blockUpdated(blockInWorld.getPos(), Blocks.AIR);
                 }
             }
-        }
+
     }
 
     private BlockPattern getOrCreateAmethystGolemBase() {

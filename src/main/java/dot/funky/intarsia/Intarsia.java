@@ -14,7 +14,6 @@ import dot.funky.intarsia.events.AmethystGolemEventHandler;
 import dot.funky.intarsia.events.CurioKeyboardEventHandler;
 import dot.funky.intarsia.events.EnchantmentsEventHandler;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -39,8 +38,7 @@ public class Intarsia {
 
     public Intarsia() {
         IEventBus modEventBus = getModEventBus();
-        var config = new ForgeConfigSpec.Builder().configure(IntarsiaConfig::new);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, config.getRight());
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, IntarsiaConfig.CONFIG_SPEC);
 
 
         if (ModList.get().isLoaded("curios")) {

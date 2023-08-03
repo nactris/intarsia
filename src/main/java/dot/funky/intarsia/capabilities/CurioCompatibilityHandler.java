@@ -34,7 +34,7 @@ public class CurioCompatibilityHandler {
         if (event.getAdvancement().getId().toString().equals("hexcasting:y_u_no_cast_angy") || event.getAdvancement().getId().toString().equals("hexcasting:aab_big_cast") || event.getAdvancement().getId().toString().equals("hexcasting:aaa_wasteful_cast") || event.getAdvancement().getId().toString().equals("hexcasting:opened_eyes") || event.getAdvancement().getId().toString().equals("hexcasting:enlightenment")) {
 
             int slots = CuriosApi.getSlotHelper().getSlotsForType(event.getEntity(), "castingdevice");
-            CuriosApi.getSlotHelper().setSlotsForType("castingdevice", event.getEntity(), min(IntarsiaConfig.get().max_curio_hex_slot.get(), slots + 1));
+            CuriosApi.getSlotHelper().setSlotsForType("castingdevice", event.getEntity(), min(IntarsiaConfig.max_curio_hex_slot.get(), slots + 1));
         }
     }
 
