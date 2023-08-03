@@ -1,4 +1,4 @@
-package dot.funky.intarsia.recipes;
+package dot.funky.intarsia.common.recipes;
 
 import at.petrak.hexcasting.common.lib.HexItems;
 import net.minecraft.nbt.CompoundTag;
@@ -6,13 +6,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 import java.util.ArrayList;
 
 import static java.lang.Math.*;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class PhialFuseRecipe {
     private static final ArrayList<CombineRecipe> combineRecipes = new ArrayList<>();
 

@@ -2,6 +2,7 @@ package dot.funky.intarsia.mixin;
 
 
 import com.mojang.logging.LogUtils;
+import dot.funky.intarsia.IntarsiaConfig;
 import dot.funky.intarsia.common.EntityRegistry;
 import dot.funky.intarsia.common.entities.AmethystGolem;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -31,14 +32,12 @@ import java.util.function.Predicate;
 @Mixin(CarvedPumpkinBlock.class)
 public class CarvedPumpkinMixin {
 
+    private static final Logger LOGGER = LogUtils.getLogger();
     @Shadow
     @Final
     private static Predicate<BlockState> PUMPKINS_PREDICATE;
-
     private BlockPattern amethystGolemBase;
     private BlockPattern amethystGolemFull;
-    private static final Logger LOGGER = LogUtils.getLogger();
-
 
     @Inject(method = "canSpawnGolem", at = @At("RETURN"), cancellable = true)
     private void canSpawnGolem(LevelReader world, BlockPos pos, CallbackInfoReturnable<Boolean> ci) {
@@ -47,27 +46,29 @@ public class CarvedPumpkinMixin {
 
     @Inject(method = "trySpawnGolem", at = @At("TAIL"))
     private void trySpawnGolem(Level world, BlockPos pos, CallbackInfo ci) {
-        BlockPattern.BlockPatternMatch match = this.getOrCreateAmethystGolemFull().find(world, pos);
-        if (match != null) {
-            for (int i = 0; i < this.getOrCreateAmethystGolemFull().getHeight(); ++i) {
-                BlockInWorld blockInWorld = match.getBlock(0, i, 0);
-                world.setBlock(blockInWorld.getPos(), Blocks.AIR.defaultBlockState(), 2);
-                world.levelEvent(2001, blockInWorld.getPos(), Block.getId(blockInWorld.getState()));
-            }
+        if (IntarsiaConfig.get().is_golem_enabled.get()) {
+            BlockPattern.BlockPatternMatch match = this.getOrCreateAmethystGolemFull().find(world, pos);
+            if (match != null) {
+                for (int i = 0; i < this.getOrCreateAmethystGolemFull().getHeight(); ++i) {
+                    BlockInWorld blockInWorld = match.getBlock(0, i, 0);
+                    world.setBlock(blockInWorld.getPos(), Blocks.AIR.defaultBlockState(), 2);
+                    world.levelEvent(2001, blockInWorld.getPos(), Block.getId(blockInWorld.getState()));
+                }
 
 
-            AmethystGolem golem = EntityRegistry.AMETHYST_GOLEM.get().create(world);
-            BlockPos golemPos = match.getBlock(0, 1, 0).getPos();
-            golem.moveTo(golemPos, 0.0F, 0.0F);
-            world.addFreshEntity(golem);
+                AmethystGolem golem = EntityRegistry.AMETHYST_GOLEM.get().create(world);
+                BlockPos golemPos = match.getBlock(0, 1, 0).getPos();
+                golem.moveTo(golemPos, 0.0F, 0.0F);
+                world.addFreshEntity(golem);
 
-            for (ServerPlayer player : world.getEntitiesOfClass(ServerPlayer.class, golem.getBoundingBox().inflate(5.0D))) {
-                CriteriaTriggers.SUMMONED_ENTITY.trigger(player, golem);
-            }
+                for (ServerPlayer player : world.getEntitiesOfClass(ServerPlayer.class, golem.getBoundingBox().inflate(5.0D))) {
+                    CriteriaTriggers.SUMMONED_ENTITY.trigger(player, golem);
+                }
 
-            for (int i = 0; i < this.getOrCreateAmethystGolemFull().getHeight(); ++i) {
-                BlockInWorld blockInWorld = match.getBlock(0, i, 0);
-                world.blockUpdated(blockInWorld.getPos(), Blocks.AIR);
+                for (int i = 0; i < this.getOrCreateAmethystGolemFull().getHeight(); ++i) {
+                    BlockInWorld blockInWorld = match.getBlock(0, i, 0);
+                    world.blockUpdated(blockInWorld.getPos(), Blocks.AIR);
+                }
             }
         }
     }

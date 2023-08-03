@@ -3,5 +3,6 @@
   "landing_text": "WILD NAC APPEARED TO STEAL YOUR KIDNEYS! WATCH OUT~",
   "version": 1,
   "extend": "hexcasting:thehexbook",
+  "forge:mod_loaded": "hexcasting",
   "use_resource_pack": true
 }

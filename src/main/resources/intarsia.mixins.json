@@ -3,7 +3,7 @@
   "minVersion": "0.8",
   "package": "dot.funky.intarsia.mixin",
   "compatibilityLevel": "JAVA_8",
-  "refmap": "nacsworkshop.refmap.json",
+  "refmap": "intarsia.refmap.json",
   "mixins": ["CarvedPumpkinMixin"
 
   ],

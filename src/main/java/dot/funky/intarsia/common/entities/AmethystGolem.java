@@ -1,7 +1,7 @@
 package dot.funky.intarsia.common.entities;
 
-import at.petrak.hexcasting.common.lib.HexItems;
 import dot.funky.intarsia.Intarsia;
+import dot.funky.intarsia.IntarsiaConfig;
 import dot.funky.intarsia.common.goals.AmethystGolemGoals;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Position;
@@ -190,7 +190,7 @@ public class AmethystGolem extends AbstractGolem {
         }
 
         if (this.getBud() < 4 && this.nextGrow-- < 0) {
-            nextGrow = random.nextInt(12000) + 6000;
+            nextGrow = random.nextInt(IntarsiaConfig.get().max_growth_time.get()) + IntarsiaConfig.get().min_growth_time.get();
             setBud(getBud() + 1);
         } else if (this.getBud() == 4) {
             this.shedTime--;
@@ -199,7 +199,12 @@ public class AmethystGolem extends AbstractGolem {
 
         if (!this.level.isClientSide && this.shedTime <= 0 && this.getBud() == 4) {
             this.playSound(SoundEvents.AMETHYST_CLUSTER_BREAK, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
-            this.spawnAtLocation(HexItems.CHARGED_AMETHYST);
+            if (IntarsiaConfig.get().does_golem_charge.get()){
+                this.spawnAtLocation(at.petrak.hexcasting.common.lib.HexItems.CHARGED_AMETHYST);
+            }else {
+                this.spawnAtLocation(Items.AMETHYST_CLUSTER);
+            }
+
             this.gameEvent(GameEvent.ENTITY_PLACE);
             this.setBud(0);
         }
