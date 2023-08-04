@@ -6,6 +6,7 @@
   "advancement": "hexcasting:root",
   "read_by_default": false,
   "pages": [
+
     {
       "type": "hexcasting:pattern",
       "op_id": "hexcasting:calculate_media",
@@ -37,6 +38,17 @@
       "input": "number",
       "output": "any",
       "text": "intarsia.page.slot_read"
+    },{
+      "type": "hexcasting:pattern",
+      "op_id": "hexcasting:sending",
+      "anchor": "hexcasting:sending",
+      "input": "vector ",
+      "output": "",
+      "text": "intarsia.page.sending.1"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "intarsia.page.sending.2"
     },
     {
       "type": "hexcasting:pattern",
@@ -45,22 +57,7 @@
       "input": "any, any",
       "output": "bool",
       "text": "intarsia.page.typeequals"
-    },
-    {
-      "type": "hexcasting:pattern",
-      "op_id": "hexcasting:slot_write",
-      "anchor": "hexcasting:slot_write",
-      "input": "number, any",
-      "output": "",
-      "text": "intarsia.page.slot_write"
-    },
-    {
-      "type": "hexcasting:pattern",
-      "op_id": "hexcasting:slot_read",
-      "anchor": "hexcasting:slot_read",
-      "input": "number",
-      "output": "any",
-      "text": "intarsia.page.slot_read"
     }
+
   ]
 }

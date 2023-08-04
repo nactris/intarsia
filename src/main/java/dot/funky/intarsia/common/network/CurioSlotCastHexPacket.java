@@ -6,7 +6,9 @@ import at.petrak.hexcasting.api.spell.casting.CastingContext;
 import at.petrak.hexcasting.api.spell.casting.CastingHarness;
 import at.petrak.hexcasting.api.spell.iota.Iota;
 import at.petrak.hexcasting.api.spell.iota.ListIota;
+import at.petrak.hexcasting.api.spell.iota.PatternIota;
 import at.petrak.hexcasting.common.items.ItemStaff;
+import dot.funky.intarsia.Intarsia;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -56,27 +58,29 @@ public class CurioSlotCastHexPacket {
 
     public static void use(ItemStack stack, ServerPlayer player) {
 
-        if (stack.getItem() instanceof IotaHolderItem && !(player.getCooldowns().isOnCooldown(stack.getItem()))) {
 
+        if (stack.getItem() instanceof IotaHolderItem && !(player.getCooldowns().isOnCooldown(stack.getItem()))) {
+            List<Iota> instrs = new ArrayList<Iota>();
             Iota iota = ((IotaHolderItem) stack.getItem()).readIota(stack, (ServerLevel) player.level);
             if (iota instanceof ListIota) {
-                List<Iota> instrs = new ArrayList<Iota>();
                 SpellList.SpellListIterator it = ((ListIota) iota).getList().iterator();
                 while (it.hasNext()) {
                     Iota i = it.next();
                     instrs.add(i);
 
                 }
-
-                InteractionHand usedHand = player.getMainHandItem().getItem() instanceof ItemStaff ? InteractionHand.MAIN_HAND : player.getOffhandItem().getItem() instanceof ItemStaff ? InteractionHand.OFF_HAND : null;
-
-
-                CastingContext ctx = new CastingContext(player, usedHand, CastingContext.CastSource.STAFF);
-                CastingHarness harness = new CastingHarness(ctx);
-                harness.executeIotas(instrs, player.getLevel());
-                player.getCooldowns().addCooldown(stack.getItem(), 5);
+            } else if (iota instanceof PatternIota) {
+                instrs.add(iota);
 
             }
+
+            InteractionHand usedHand = player.getMainHandItem().getItem() instanceof ItemStaff ? InteractionHand.MAIN_HAND : player.getOffhandItem().getItem() instanceof ItemStaff ? InteractionHand.OFF_HAND : null;
+            CastingContext ctx = new CastingContext(player, usedHand, CastingContext.CastSource.STAFF);
+            CastingHarness harness = new CastingHarness(ctx);
+            harness.executeIotas(instrs, player.getLevel());
+            player.getCooldowns().addCooldown(stack.getItem(), 5);
+
+
         }
     }
 

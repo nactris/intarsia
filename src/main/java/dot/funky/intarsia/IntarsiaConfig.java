@@ -1,5 +1,6 @@
 package dot.funky.intarsia;
 
+import at.petrak.paucal.api.contrib.Contributor;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 public class IntarsiaConfig {
@@ -15,6 +16,7 @@ public class IntarsiaConfig {
         CONFIG_SPEC = configBuilder.build();
     }
 
+    public static  ForgeConfigSpec.BooleanValue is_sending_enabled;
 
     public static ForgeConfigSpec.BooleanValue is_health_enabled;
     public static ForgeConfigSpec.BooleanValue is_golem_enabled;
@@ -43,6 +45,7 @@ public class IntarsiaConfig {
         builder.push("Hexcasting");
         is_curio_rw_enabled = builder.comment("Are curio read/write patterns enabled?").define("is_curio_rw_enabled", true);
         is_health_enabled = builder.comment("Is Kahuna's Purification pattern enabled?").define("is_health_enabled", true);
+        is_sending_enabled = builder.comment("Is Instant Delivery pattern enabled?").define("is_sending_enabled", true);
         is_media_counter_enabled = builder.comment("Is Jeweler's Reflection pattern enabled?").define("is_media_counter_enabled", true);
         is_type_compare_enabled = builder.comment("Is Archivist's Distillation pattern enabled?").define("is_type_compare_enabled", true);
         max_curio_hex_slot = builder.comment("Maximum amount of curio slots you can get from hexcasting achivements").defineInRange("max_curio_hex_slots", 5, 0, 5);

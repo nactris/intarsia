@@ -15,7 +15,7 @@ public class MercyCurseEnchantment extends Enchantment {
 
 
     public MercyCurseEnchantment() {
-        super(Enchantment.Rarity.VERY_RARE, EnchantmentCategory.WEAPON, new EquipmentSlot[]{EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND});
+        super(Enchantment.Rarity.VERY_RARE, EnchantmentCategory.WEAPON, new EquipmentSlot[]{EquipmentSlot.MAINHAND,EquipmentSlot.FEET, EquipmentSlot.HEAD,EquipmentSlot.CHEST,EquipmentSlot.LEGS , EquipmentSlot.OFFHAND});
     }
 
     public void preventKill(LivingHurtEvent event) {

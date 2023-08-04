@@ -4,10 +4,7 @@ import at.petrak.hexcasting.api.PatternRegistry;
 import at.petrak.hexcasting.api.spell.math.HexDir;
 import at.petrak.hexcasting.api.spell.math.HexPattern;
 import dot.funky.intarsia.IntarsiaConfig;
-import dot.funky.intarsia.common.casting.spells.OpEqualType;
-import dot.funky.intarsia.common.casting.spells.OpGetMedia;
-import dot.funky.intarsia.common.casting.spells.OpReadSlot;
-import dot.funky.intarsia.common.casting.spells.OpWriteSlot;
+import dot.funky.intarsia.common.casting.spells.*;
 import dot.funky.nacsworkshop.common.casting.spells.OpHealth;
 import net.minecraftforge.fml.ModList;
 
@@ -25,6 +22,10 @@ public class Patterns {
                 PatternRegistry.mapPattern(HexPattern.fromAngles("aaedeaa", HexDir.SOUTH_WEST), modLoc("calculate_media"), OpGetMedia.INSTANCE, false);
             if (IntarsiaConfig.is_health_enabled.get())
                 PatternRegistry.mapPattern(HexPattern.fromAngles("awa", HexDir.SOUTH_WEST), modLoc("get_health"), OpHealth.INSTANCE, false);
+
+            if (IntarsiaConfig.is_sending_enabled.get())
+                PatternRegistry.mapPattern(HexPattern.fromAngles("qqwqqqwaqqqqqdeeeedeeee", HexDir.SOUTH_WEST), modLoc("sending"), OpMailman.INSTANCE, true);
+    //        awaawa
 
             if (ModList.get().isLoaded("curios") && IntarsiaConfig.is_curio_rw_enabled.get()) {
                 PatternRegistry.mapPattern(HexPattern.fromAngles("dedweeee", HexDir.SOUTH_EAST), modLoc("slot_write"), OpWriteSlot.INSTANCE, false);
