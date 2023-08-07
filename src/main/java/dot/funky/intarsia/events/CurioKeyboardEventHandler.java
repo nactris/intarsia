@@ -5,9 +5,14 @@ import dot.funky.intarsia.common.network.PacketHandler;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import org.lwjgl.glfw.GLFW;
+
 
 public class CurioKeyboardEventHandler {
 
@@ -22,7 +27,8 @@ public class CurioKeyboardEventHandler {
     static boolean[] slotKeyAllowed = {
             true,true,true,true,true
     };
-
+    @OnlyIn(Dist.CLIENT)
+    @SubscribeEvent(priority = EventPriority.NORMAL,receiveCanceled = true)
     public static void registerKeyBindings(RegisterKeyMappingsEvent event) {
         if (ModList.get().isLoaded("curios")) {
 

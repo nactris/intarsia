@@ -43,7 +43,9 @@ public class Intarsia {
 
         if (ModList.get().isLoaded("curios")) {
             modEventBus.addListener(CurioCompatibilityHandler::IMCCurios);
-            modEventBus.addListener(CurioKeyboardEventHandler::registerKeyBindings);
+
+         //   modEventBus.addListener(CurioKeyboardEventHandler::registerKeyBindings); //moved to class
+
             MinecraftForge.EVENT_BUS.addListener(CurioCompatibilityHandler::onGrantAdvancement);
             modEventBus.addListener(CurioCompatibilityHandler::init);
             MinecraftForge.EVENT_BUS.register(CurioKeyboardEventHandler.class);
