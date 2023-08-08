@@ -44,12 +44,15 @@ public class Intarsia {
         if (ModList.get().isLoaded("curios")) {
             modEventBus.addListener(CurioCompatibilityHandler::IMCCurios);
 
-         //   modEventBus.addListener(CurioKeyboardEventHandler::registerKeyBindings); //moved to class
+          // modEventBus.add(CurioKeyboardEventHandler::registerKeyBindings); //moved to class
+            modEventBus.register(CurioKeyboardEventHandler.class);
 
             MinecraftForge.EVENT_BUS.addListener(CurioCompatibilityHandler::onGrantAdvancement);
             modEventBus.addListener(CurioCompatibilityHandler::init);
             MinecraftForge.EVENT_BUS.register(CurioKeyboardEventHandler.class);
-            MinecraftForge.EVENT_BUS.addListener(CurioCompatibilityHandler::clientTick);
+            MinecraftForge.EVENT_BUS.addListener(CurioCompatibilityHandler::clientTick); //moved to class
+
+
         }
 
         if (ModList.get().isLoaded("hexcasting")) {

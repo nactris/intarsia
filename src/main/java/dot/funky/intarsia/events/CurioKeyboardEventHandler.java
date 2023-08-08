@@ -1,5 +1,6 @@
 package dot.funky.intarsia.events;
 
+import dot.funky.intarsia.Intarsia;
 import dot.funky.intarsia.common.network.CurioSlotCastHexPacket;
 import dot.funky.intarsia.common.network.PacketHandler;
 import net.minecraft.client.KeyMapping;
@@ -7,12 +8,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import org.lwjgl.glfw.GLFW;
-
 
 public class CurioKeyboardEventHandler {
 
@@ -28,8 +29,9 @@ public class CurioKeyboardEventHandler {
             true,true,true,true,true
     };
     @OnlyIn(Dist.CLIENT)
-    @SubscribeEvent(priority = EventPriority.NORMAL,receiveCanceled = true)
+    @SubscribeEvent()
     public static void registerKeyBindings(RegisterKeyMappingsEvent event) {
+        Intarsia.LOGGER.info("LOGGED SOME BINDIES");
         if (ModList.get().isLoaded("curios")) {
 
             event.register(SLOT_1);
@@ -58,18 +60,9 @@ public class CurioKeyboardEventHandler {
 
 
             for (int i = 0; i < 5; i++) {
-              //  NacsWorkshop.LOGGER.info("tick: {}", i);
-
-
                 if (slotKeyDown[i] && isGameFocused && slotKeyAllowed[i]) {
-
-                    slotKeyAllowed[i] = false;
-
                     PacketHandler.INSTANCE.sendToServer(new CurioSlotCastHexPacket(i));
-
                 } else if (!slotKeyDown[i] && !slotKeyAllowed[i] ) {
-               //     NacsWorkshop.LOGGER.info("SLOT {} UP",i);
-
                     slotKeyAllowed[i] = true;
                 }
             }
