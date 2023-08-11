@@ -40,9 +40,7 @@ public class TemperanceEnchantment extends Enchantment {
     public boolean canEnchant(ItemStack stack) {
         return (stack.getItem() instanceof DiggerItem || stack.getItem() instanceof SwordItem);
     }
-    public boolean isTreasureOnly() {
-        return true;
-    }
+
     @Override
     public Component getFullname(int level) {
         MutableComponent mutablecomponent = Component.translatable(this.getDescriptionId());

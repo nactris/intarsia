@@ -27,8 +27,9 @@ public class MercyCurseEnchantment extends Enchantment {
         }
     }
 
-    public boolean isTreasureOnly() {
-        return true;
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack) {
+        return false;
     }
 
     @Override
