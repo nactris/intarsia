@@ -21,6 +21,7 @@ object OpMailman : SpellAction {
 
 
     override val argc = 1
+
     override val isGreat = true
 
     override fun execute(args: List<Iota>, ctx: CastingContext): Triple<RenderedSpell, Int, List<ParticleSpray>> {
