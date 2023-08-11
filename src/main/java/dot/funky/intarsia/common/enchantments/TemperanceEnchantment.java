@@ -27,18 +27,14 @@ public class TemperanceEnchantment extends Enchantment {
     }
 
     @Override
-    public boolean canApplyAtEnchantingTable(ItemStack stack) {
-        return false;
-    }
-
-    @Override
     public int getMaxLevel() {
         return 1;
     }
 
-    @Override
-    public boolean canEnchant(ItemStack stack) {
-        return (stack.getItem() instanceof DiggerItem || stack.getItem() instanceof SwordItem);
+
+
+    public boolean isTreasureOnly() {
+        return true;
     }
 
     @Override
@@ -59,9 +55,9 @@ public class TemperanceEnchantment extends Enchantment {
         if (stack.isEmpty()) return;
 
 
-        if (stack.getEnchantmentLevel(this) > 0 && stack.getEnchantmentLevel(this) < 2) {
+        if (stack.getEnchantmentLevel(this) > 0 ) { //&& stack.getEnchantmentLevel(this) < 2
             float hardness = event.getState().getDestroySpeed(player.level, event.getPosition().orElse(BlockPos.ZERO));
-            if (30.0F * hardness <= event.getOriginalSpeed() && !event.getEntity().isCrouching()) {
+            if (stack.getDestroySpeed(event.getState()) > 1.0F && 30.0F * hardness <= event.getOriginalSpeed()) {
                 event.setNewSpeed(29.99999F * hardness);
             }
 
