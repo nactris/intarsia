@@ -1,5 +1,6 @@
 package dot.funky.intarsia.common.enchantments;
 
+import dot.funky.intarsia.Intarsia;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -60,6 +61,7 @@ public class TemperanceEnchantment extends Enchantment {
             if (stack.getDestroySpeed(event.getState()) > 1.0F) {
                 event.setNewSpeed(Math.min (29.99999F * hardness,event.getOriginalSpeed() ));
             }
+            Intarsia.LOGGER.info("bs: {} to {}",event.getOriginalSpeed(),event.getNewSpeed() );
 
         }
     }
