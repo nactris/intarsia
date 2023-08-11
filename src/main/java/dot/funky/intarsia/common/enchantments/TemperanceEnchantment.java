@@ -27,19 +27,11 @@ public class TemperanceEnchantment extends Enchantment {
     }
 
     @Override
-    public boolean canApplyAtEnchantingTable(ItemStack stack) {
-        return false;
-    }
-
-    @Override
     public int getMaxLevel() {
         return 1;
     }
 
-    @Override
-    public boolean canEnchant(ItemStack stack) {
-        return (stack.getItem() instanceof DiggerItem || stack.getItem() instanceof SwordItem);
-    }
+
     public boolean isTreasureOnly() {
         return true;
     }
