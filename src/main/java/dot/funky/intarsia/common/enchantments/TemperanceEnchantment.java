@@ -32,9 +32,11 @@ public class TemperanceEnchantment extends Enchantment {
     }
 
 
+
     public boolean isTreasureOnly() {
         return true;
     }
+
     @Override
     public Component getFullname(int level) {
         MutableComponent mutablecomponent = Component.translatable(this.getDescriptionId());
