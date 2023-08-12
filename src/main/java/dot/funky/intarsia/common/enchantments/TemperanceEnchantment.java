@@ -58,7 +58,7 @@ public class TemperanceEnchantment extends Enchantment {
 
         if (stack.getEnchantmentLevel(this) > 0 ) { //&& stack.getEnchantmentLevel(this) < 2
             float hardness = event.getState().getDestroySpeed(player.level, event.getPosition().orElse(BlockPos.ZERO));
-            if (stack.getDestroySpeed(event.getState()) > 1.0F) {
+            if (stack.getDestroySpeed(event.getState()) > 1.0F && hardness > 0f) {
                 event.setNewSpeed(Math.min (29.99999F * hardness,event.getOriginalSpeed() ));
             }
 
