@@ -61,7 +61,6 @@ public class TemperanceEnchantment extends Enchantment {
             if (stack.getDestroySpeed(event.getState()) > 1.0F) {
                 event.setNewSpeed(Math.min (29.99999F * hardness,event.getOriginalSpeed() ));
             }
-            Intarsia.LOGGER.info("bs: {} to {}",event.getOriginalSpeed(),event.getNewSpeed() );
 
         }
     }
