@@ -1,10 +1,12 @@
 package dot.funky.intarsia.common.entities;
 
+import com.machinezoo.noexception.throwing.ThrowingIntSupplier;
 import dot.funky.intarsia.Intarsia;
 import dot.funky.intarsia.IntarsiaConfig;
 import dot.funky.intarsia.common.goals.AmethystGolemGoals;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Position;
+import net.minecraft.core.SectionPos;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -17,6 +19,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -34,11 +37,20 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static dot.funky.intarsia.common.api.Util.RayTraceBlocks;
 
 //todo - sing when allays or parrots are nearby triggering dance
 public class AmethystGolem extends AbstractGolem {
@@ -59,6 +71,7 @@ public class AmethystGolem extends AbstractGolem {
     private BlockPos jukebox;
     private int shedTime;
     private int nextGrow;
+    private int nextScan;
 
 
     public AmethystGolem(EntityType<? extends AbstractGolem> type, Level level) {
@@ -91,7 +104,7 @@ public class AmethystGolem extends AbstractGolem {
         this.goalSelector.addGoal(4, new AmethystGolemGoals.InspectCrystalGoal(this));
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.5F));
-        this.goalSelector.addGoal(1,new FloatGoal(this));
+        this.goalSelector.addGoal(1, new FloatGoal(this));
 
 
         super.registerGoals();
@@ -109,7 +122,7 @@ public class AmethystGolem extends AbstractGolem {
                     double d0 = this.random.nextGaussian() * 0.02D;
                     double d1 = this.random.nextGaussian() * 0.02D;
                     double d2 = this.random.nextGaussian() * 0.02D;
-                    this.level.addParticle(new ItemParticleOption(ParticleTypes.ITEM, new ItemStack(Items.AMETHYST_SHARD) ), this.getRandomX(0.2D), this.getRandomY() + 0.1D, this.getRandomZ(0.2D), d0, d1, d2);
+                    this.level.addParticle(new ItemParticleOption(ParticleTypes.ITEM, new ItemStack(Items.AMETHYST_SHARD)), this.getRandomX(0.2D), this.getRandomY() + 0.1D, this.getRandomZ(0.2D), d0, d1, d2);
 
                 }
             } else {
@@ -156,9 +169,68 @@ public class AmethystGolem extends AbstractGolem {
 
     }
 
+    public boolean findCrystals() {
+        if (this.getSongTarget() != null && (this.level.getBlockState(getSongTarget()).is(AmethystGolem.GROWN_TAG) || this.level.getBlockState(getSongTarget()).is(AmethystGolem.GROWING_TAG)))
+            return true;
+
+        BlockPos blockpos = this.blockPosition();
+        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+        boolean found = false;
+        List<BlockPos> growingCrystals = new ArrayList<>();
+        for (int vertical_x = 0; vertical_x <= 30; vertical_x = vertical_x > 0 ? -vertical_x : 1 - vertical_x) {
+            for (int range_x = 0; range_x < 30; ++range_x) {
+                for (int vertical_y = 0; vertical_y <= range_x; vertical_y = vertical_y > 0 ? -vertical_y : 1 - vertical_y) {
+                    for (int range_y = vertical_y < range_x && vertical_y > -range_x ? range_x : 0; range_y <= range_x; range_y = range_y > 0 ? -range_y : 1 - range_y) {
+                        blockpos$mutableblockpos.setWithOffset(blockpos, vertical_y, vertical_x - 1, range_y);
+                        Pair<Boolean, Boolean> v = this.isValidTarget(this.level, blockpos$mutableblockpos);
+
+                        if ( isWithinRestriction(blockpos$mutableblockpos) &&  (v.getLeft() || v.getRight())) {
+                            found = true;
+
+                            if (v.getLeft()) {
+                                this.setSongTarget(blockpos$mutableblockpos);
+
+                                return true;
+                            } else {
+
+                                growingCrystals.add(blockpos$mutableblockpos.immutable());
+                            }
+
+                        }
+                    }
+                }
+            }
+        } if (!growingCrystals.isEmpty() && !this.level.getBlockState(getSongTarget()).is(AmethystGolem.GROWN_TAG) ) {
+            RandomSource rs = this.getRandom();
+            this.setSongTarget(growingCrystals.get(rs.nextIntBetweenInclusive(0, growingCrystals.size() - 1)));
+        }
+
+        return found;
+    }
+
+    protected Pair<Boolean, Boolean> isValidTarget(LevelReader levelReader, BlockPos pos) {
+        ChunkAccess chunkaccess = levelReader.getChunk(SectionPos.blockToSectionCoord(pos.getX()), SectionPos.blockToSectionCoord(pos.getZ()), ChunkStatus.FULL, false);
+        if (chunkaccess == null) {
+            return Pair.of(false, false);
+        } else {
+            if (!chunkaccess.getBlockState(pos).canEntityDestroy(levelReader, pos, this)) {
+                return Pair.of(false, false);
+
+            }
+            return Pair.of(chunkaccess.getBlockState(pos).is(AmethystGolem.GROWN_TAG), chunkaccess.getBlockState(pos).is(AmethystGolem.GROWING_TAG));
+        }
+    }
+
+    public boolean canSee(BlockPos pos) {
+        Vec3 posmid = new Vec3(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+        kotlin.Pair<Boolean, BlockPos> hit = RayTraceBlocks(level, getEyePosition(), posmid, (int) (getEyePosition().distanceTo(posmid) * 10));
+        return pos.equals(hit.getSecond());
+    }
 
     @Override
     public void aiStep() {
+
+
         if (getSongSignal()) {
             BlockPos target = getSongTarget();
             if (isSinging() && target != null) {
@@ -183,7 +255,12 @@ public class AmethystGolem extends AbstractGolem {
             this.level.addParticle(new VibrationParticleOption(new BlockPositionSource(target), (int) target.distToCenterSqr(this.position()) ), this.getRandomX(1.0D)/4, this.getRandomY()/4 + 0.5D, this.getRandomZ(1.0D)/4, 0, 0, 0);
 
         } */
-
+        if (nextScan < 0 && !level.isClientSide) {
+            findCrystals();
+            nextScan = random.nextIntBetweenInclusive(100, 400);
+        } else if (!level.isClientSide) {
+            nextScan--;
+        }
         if (this.jukebox == null || !this.jukebox.closerToCenterThan(this.position(), 4D) || !this.level.getBlockState(this.jukebox).is(Blocks.JUKEBOX)) {
             this.setDancing(false);
             this.jukebox = null;
@@ -199,9 +276,9 @@ public class AmethystGolem extends AbstractGolem {
 
         if (!this.level.isClientSide && this.shedTime <= 0 && this.getBud() == 4) {
             this.playSound(SoundEvents.AMETHYST_CLUSTER_BREAK, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
-            if (IntarsiaConfig.does_golem_charge.get()){
+            if (IntarsiaConfig.does_golem_charge.get()) {
                 this.spawnAtLocation(at.petrak.hexcasting.common.lib.HexItems.CHARGED_AMETHYST);
-            }else {
+            } else {
                 this.spawnAtLocation(Items.AMETHYST_CLUSTER);
             }
 
@@ -347,11 +424,12 @@ public class AmethystGolem extends AbstractGolem {
         return this.entityData.get(SONG_SIGNAL);
     }
 
+    public void setSongSignal(boolean signal) {
+        this.entityData.set(SONG_SIGNAL, signal);
+    }
+
     public void setSongSignal() {
         this.entityData.set(SONG_SIGNAL, true);
-    }
-        public void setSongSignal(boolean signal) {
-        this.entityData.set(SONG_SIGNAL, signal);
     }
 
     public void setRecordPlayingNearby(BlockPos jukeboxPos, boolean shouldDance) {

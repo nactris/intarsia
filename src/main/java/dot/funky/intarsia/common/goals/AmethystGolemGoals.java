@@ -23,7 +23,7 @@ import static java.lang.Math.min;
 
 public class AmethystGolemGoals {
 
-        public static class InspectCrystalGoal extends Goal {
+    public static class InspectCrystalGoal extends Goal {
         private final AmethystGolem mob;
         protected int stareTime;
         protected int totalStareTime;
@@ -31,19 +31,25 @@ public class AmethystGolemGoals {
         private boolean locked_eyes = false;
         private int tryTicks;
 
-            public InspectCrystalGoal(AmethystGolem mob) {
+        public InspectCrystalGoal(AmethystGolem mob) {
             this.mob = mob;
             this.setFlags(EnumSet.of(Goal.Flag.JUMP, Goal.Flag.MOVE, Goal.Flag.LOOK));
         }
+
         public boolean canContinueToUse() {
             return stareTime <= totalStareTime && tryTicks <= 1200 && !mob.isDancing() && selectedCrystal.closerToCenterThan(mob.position(), 10.0D) && mob.level.getBlockState(selectedCrystal).is(AmethystGolem.GROWING_TAG);
         }
+
         public boolean canUse() {
-            return findBlock() && mob.isOnGround() && !mob.isDancing();
+            return (this.mob.getSongTarget() != null && this.mob.level.getBlockState(this.mob.getSongTarget()).is(AmethystGolem.GROWING_TAG) && mob.isOnGround() && !mob.isDancing());
+
+
         }
+
         public void start() {
             tryTicks = 0;
             stareTime = 0;
+            selectedCrystal = this.mob.getSongTarget();
             setFlags(EnumSet.of(Goal.Flag.JUMP, Goal.Flag.MOVE, Goal.Flag.LOOK));
             totalStareTime = mob.getRandom().nextIntBetweenInclusive(60, 120);
             if (!isReachedTarget()) {
@@ -71,30 +77,9 @@ public class AmethystGolemGoals {
 
 
         private boolean isReachedTarget() {
-              Vec3 hor = new Vec3(selectedCrystal.getX(), mob.position().y, selectedCrystal.getZ());
+            Vec3 hor = new Vec3(selectedCrystal.getX(), mob.position().y, selectedCrystal.getZ());
             Vec3 ver = new Vec3(mob.position().x, selectedCrystal.getY(), mob.position().z);
-            return this.selectedCrystal.distToCenterSqr(ver) <= 16D && selectedCrystal.distToCenterSqr(hor) <= 100D && canSee(selectedCrystal);
-        }
-
-        public boolean canSee(BlockPos pos) {
-            Vec3 posmid = new Vec3(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-            Pair<Boolean, BlockPos> hit = RayTraceBlocks(mob.level, mob.getEyePosition(), posmid, (int) (mob.getEyePosition().distanceTo(posmid) * 10));
-            return pos.equals(hit.getSecond());
-        }
-
-        protected boolean findBlock() {
-            List<BlockPos> growingCrystals = new ArrayList<>();
-            for (BlockPos b : BlockPos.betweenClosed(mob.blockPosition().below(8).south(16).east(16), mob.blockPosition().above(16).north(16).west(16))) {
-                if (mob.level.getBlockState(b).is(AmethystGolem.GROWING_TAG)) {
-                    growingCrystals.add(b.immutable());
-
-                }
-            }
-            if (!growingCrystals.isEmpty()) {
-                RandomSource rs = mob.getRandom();
-                selectedCrystal = growingCrystals.get(rs.nextIntBetweenInclusive(0, growingCrystals.size() - 1));
-            }
-            return !growingCrystals.isEmpty();
+            return this.selectedCrystal.distToCenterSqr(ver) <= 16D && selectedCrystal.distToCenterSqr(hor) <= 100D && this.mob.canSee(selectedCrystal);
         }
     }
 
@@ -118,17 +103,16 @@ public class AmethystGolemGoals {
         public boolean canContinueToUse() {
 
 
-            return (this.mob.level.getBlockState(this.selectedCrystal).is(AmethystGolem.GROWN_TAG) || lastNotes) && !this.mob.isDancing() && this.breakTime <= this.totalBreakTime+4 && this.selectedCrystal.closerToCenterThan(this.mob.position(), 30.0D);
+            return (this.mob.level.getBlockState(this.selectedCrystal).is(AmethystGolem.GROWN_TAG) || lastNotes) && !this.mob.isDancing() && this.breakTime <= this.totalBreakTime + 4 && this.selectedCrystal.closerToCenterThan(this.mob.position(), 30.0D);
         }
 
         public boolean canUse() {
-            return findNearestBlock() && !this.mob.isDancing() && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.mob.level, this.mob);
+            return this.mob.getSongTarget() != null && this.mob.level.getBlockState(this.mob.getSongTarget()).is(AmethystGolem.GROWN_TAG) && !this.mob.isDancing() && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.mob.level, this.mob);
         }
 
         public void start() {
             lastNotes = false;
-
-            findNearestBlock();
+            this.selectedCrystal = this.mob.getSongTarget();
             this.waitTicks = mob.getRandom().nextIntBetweenInclusive(10, 25);
             this.setFlags(EnumSet.of(Goal.Flag.JUMP, Goal.Flag.MOVE, Goal.Flag.LOOK));
             this.totalBreakTime = 20 + 5 * mob.getRandom().nextIntBetweenInclusive(0, 2);
@@ -178,14 +162,13 @@ public class AmethystGolemGoals {
             } else if (locked_eyes) {
                 this.stop();
                 locked_eyes = false;
-                findNearestBlock();
             } else {
 
                 tryTicks++;
                 if (tryTicks % 160 == 0) {
                     RandomSource rs = mob.getRandom();
 
-                    this.mob.getNavigation().moveTo(mob.position().x + rs.nextIntBetweenInclusive(-5,5), mob.position().y, mob.position().z + rs.nextIntBetweenInclusive(-5,5), 1);
+                    this.mob.getNavigation().moveTo(mob.position().x + rs.nextIntBetweenInclusive(-5, 5), mob.position().y, mob.position().z + rs.nextIntBetweenInclusive(-5, 5), 1);
 
                 }
                 if (tryTicks % 40 == 0 && tryTicks % 160 != 0) {
@@ -198,27 +181,6 @@ public class AmethystGolemGoals {
 
         }
 
-        protected boolean findNearestBlock() {
-            BlockPos blockpos = this.mob.blockPosition();
-            BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-
-            for (int vertical_x = 0; vertical_x <= 30; vertical_x = vertical_x > 0 ? -vertical_x : 1 - vertical_x) {
-                for (int range_x = 0; range_x < 30; ++range_x) {
-                    for (int vertical_y = 0; vertical_y <= range_x; vertical_y = vertical_y > 0 ? -vertical_y : 1 - vertical_y) {
-                        for (int range_y = vertical_y < range_x && vertical_y > -range_x ? range_x : 0; range_y <= range_x; range_y = range_y > 0 ? -range_y : 1 - range_y) {
-                            blockpos$mutableblockpos.setWithOffset(blockpos, vertical_y, vertical_x - 1, range_y);
-                            if (this.mob.isWithinRestriction(blockpos$mutableblockpos) && this.isValidTarget(this.mob.level, blockpos$mutableblockpos)) {
-                                this.selectedCrystal = blockpos$mutableblockpos;
-                                this.mob.setSongTarget(selectedCrystal);
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
-
-            return false;
-        }
 
         public boolean isReachedTarget() {
 
@@ -237,15 +199,6 @@ public class AmethystGolemGoals {
         }
 
 
-        protected boolean isValidTarget(LevelReader levelReader, BlockPos pos) {
-            ChunkAccess chunkaccess = levelReader.getChunk(SectionPos.blockToSectionCoord(pos.getX()), SectionPos.blockToSectionCoord(pos.getZ()), ChunkStatus.FULL, false);
-            if (chunkaccess == null) {
-                return false;
-            } else {
-                if (!chunkaccess.getBlockState(pos).canEntityDestroy(levelReader, pos, this.mob)) return false;
-                return chunkaccess.getBlockState(pos).is(AmethystGolem.GROWN_TAG) ;
-            }
-        }
     }
 
 
