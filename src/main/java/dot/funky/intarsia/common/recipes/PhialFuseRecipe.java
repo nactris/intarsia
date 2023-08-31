@@ -1,16 +1,17 @@
 package dot.funky.intarsia.common.recipes;
 
 import at.petrak.hexcasting.common.lib.HexItems;
+import dot.funky.intarsia.Intarsia;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
 import java.util.ArrayList;
 
 import static java.lang.Math.*;
-
 public class PhialFuseRecipe {
     private static final ArrayList<CombineRecipe> combineRecipes = new ArrayList<>();
 
@@ -18,8 +19,9 @@ public class PhialFuseRecipe {
         combineRecipes.add(new CombineRecipe(HexItems.BATTERY, HexItems.BATTERY, HexItems.BATTERY));
     }
 
-    @SubscribeEvent
     public static void handleRepair(AnvilUpdateEvent event) {
+        Intarsia.LOGGER.info("handle fuse");
+
         combineRecipes.forEach((data) -> {
             if (event.getLeft().getItem() == data.left && event.getRight().getItem() == data.right) {
                 int capacity_left = event.getLeft().getTag().getInt("hexcasting:start_media");

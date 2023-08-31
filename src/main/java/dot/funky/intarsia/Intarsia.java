@@ -51,13 +51,14 @@ public class Intarsia {
             modEventBus.addListener(CurioCompatibilityHandler::init);
             MinecraftForge.EVENT_BUS.register(CurioKeyboardEventHandler.class);
             MinecraftForge.EVENT_BUS.addListener(CurioCompatibilityHandler::clientTick); //moved to class
-
+            MinecraftForge.EVENT_BUS.addListener(PhialFuseRecipe::handleRepair);
 
         }
 
         if (ModList.get().isLoaded("hexcasting")) {
             modEventBus.addListener((FMLCommonSetupEvent evt) -> evt.enqueueWork(Patterns::registerPatterns));
-            //if (IntarsiaConfig.get().phial_phusion.get()) modEventBus.addListener(this::registerHexcastingRecipes);
+
+           if (IntarsiaConfig.phial_phusion.get()) modEventBus.addListener(this::registerHexcastingRecipes);
 
 
         }
@@ -102,6 +103,7 @@ public class Intarsia {
     }
 
     public void registerHexcastingRecipes(final FMLCommonSetupEvent evt) {
+
         PhialFuseRecipe.initAnvilRecipes();
     }
 
